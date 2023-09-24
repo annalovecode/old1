@@ -1,0 +1,250 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        {% if title %}
+        <title>{{title}}</title>
+        {% else %}
+        <title>心脏病辅助诊断系统</title>
+        {% endif %}
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="stylesheet" href="{{ url_for('static', filename='layui/css/index.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='layui/css/record.css')}}">
+        <script src="{{ url_for('static', filename='layui/layui.js')}}" charset="utf-8"></script>
+    </head>
+    <body class="layui-layout-body">
+        <div class="layui-layout layui-layout-admin">
+            <div class="layui-header">
+                <div class="layui-logo">
+                    <img src="{{ url_for('static', filename='/layui/images/heart_logo.png')}}" class="layui-nav-logo">
+                    心脏病辅助诊断系统
+                </div>
+                <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item"><a href="index.html">心脏疾病科普</a></li>
+                <li class="layui-nav-item"><a href="heartPredict.html">心脏病预测</a></li>
+                <li class="layui-nav-item"><a href="record.html">历史预测记录</a></li>
+                </ul>
+                <ul class="layui-nav layui-layout-right">
+                    <li class="layui-nav-item">
+                        <i class="layui-icon layui-icon-username" style="font-size: 18px;"></i>
+                    </li>
+                <li class="layui-nav-item">
+                    {% if username %}
+                        <a href="/login">
+                        登录
+                        </a>
+                    {% else %}
+                        <a href="/login">
+                        {{username}}
+                        </a>
+
+                    {% endif %}
+
+
+                </li>
+                <li class="layui-nav-item"><a href="">退出</a></li>
+                </ul>
+            </div>
+
+            {% block content %}{% endblock %}
+        </div>
+        <script>
+                layui.use(['table','element'], function(){
+                    var table = layui.table
+                    ,element=layui.element;
+                    table.render({//执行渲染
+                        elem: '#test'
+                        // ,height:312
+                        // ,url:'/demo/table/user/' //数据接口
+                        // ,url:'/test/table/demo1.json'//数据接口
+                        ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                        ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                        title: '提示'
+                        ,layEvent: 'LAYTABLE_TIPS'
+                        ,icon: 'layui-icon-tips'
+                        }]
+                        ,title:'历史预测记录表'
+                        ,page:true //开启分页
+                        ,skin: 'line' //表格风格
+                        , even: true
+                        // ,limits: [5, 7, 10]
+                        ,limit: 7 //每页默认显示的数量
+                        // ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                        ,cols: [[//表头
+                            {field:'preId', title: '预测ID', width:70,sort: true}
+                            ,{field:'age', title: '年龄',width:60,sort:true} //width 支持：数字、百分比和不填写。你还可以通过 minWidth 参数局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                            ,{field:'sex', title: '性别',width:60}
+                            ,{field:'cp', title: '胸部疼痛类型'}
+                            ,{field:'trestbps', title: '血压',width:60,sort:true}
+                            ,{field:'chol', title: '胆固醇',sort:true, align: 'center'} //单元格内容水平居中
+                            ,{field:'fbs', title: '空腹血糖',width:70} //单元格内容水平居中
+                            ,{field:'restecg', title: '心电图结果'}
+                            ,{field:'thalach', title: '最大心跳数',sort: true}
+                            ,{field:'exang', title: '运动时心绞痛',width:50}
+                            ,{field:'oldpeak', title: '运动相对于休息的ST depression'}
+                            ,{field:'slop', title: '心电图ST segment的倾斜度'}
+                            ,{field:'ca', title: '透视检查看到的血管数', sort: true}
+                            ,{field:'thal', title: '称为地中海贫血的血液疾病', sort: true}
+                            ,{field:'num', title: '心脏病风险',
+                                templet: function (d) {
+                                    if (d.num == "无心脏病") {
+                                        return '<div style="background-color:#5FB878;color: white;">' + d.num + '</div>'
+                                    }
+                                    if (d.num == "一级心脏病") {
+                                        return '<div style="background-color:#ffd700;color: white;">' + d.num + '</div>'
+                                    }
+                                    if (d.num == "二级心脏病") {
+                                        return '<div style="background-color:#FFB800;color: white;">' + d.num + '</div>'
+                                    }
+                                    if (d.num == "三级心脏病") {
+                                        return '<div style="background-color:#FF5722;color: white;">' + d.num + '</div>'
+                                    }
+                                    if (d.num == "四级心脏病") {
+                                        return '<div style="background-color:#df0000;color: white;">' + d.num + '</div>'
+                                    }
+                                }
+                            }
+                        ]]
+                        ,data: [{
+                            "preId": "10001"
+                            ,"age": "63"
+                            ,"sex": "男"
+                            ,"cp": "典型心绞痛"
+                            ,"trestbps": "145"
+                            ,"chol": "233"
+                            ,"fbs": "大于120mg/dl"
+                            ,"restecg": "正常"
+                            ,"thalach": "150"
+                            ,"exang": "否"
+                            ,"oldpeak": "2.3"
+                            ,"slop": "上升"
+                            ,"ca": "0"
+                            ,"thal": "正常"
+                            ,"num": "无心脏病"
+                            }, {
+                            "preId": "10002"
+                            ,"age": "37"
+                            ,"sex": "男"
+                            ,"cp": "非心绞痛"
+                            ,"trestbps": "130"
+                            ,"chol": "250"
+                            ,"fbs": "不大于120mg/dl"
+                            ,"restecg": "有ST-T波异常"
+                            ,"thalach": "187"
+                            ,"exang": "否"
+                            ,"oldpeak": "3.5"
+                            ,"slop": "上升"
+                            ,"ca": "0"
+                            ,"thal": "固定缺陷"
+                            ,"num": "二级心脏病"
+                            },{
+                            "preId": "10003"
+                            ,"age": "60"
+                            ,"sex": "男"
+                            ,"cp": "无症状"
+                            ,"trestbps": "130"
+                            ,"chol": "206"
+                            ,"fbs": "不大于120mg/dl"
+                            ,"restecg": "按Estes标准显示可能或明确的左心室肥厚"
+                            ,"thalach": "132"
+                            ,"exang": "是"
+                            ,"oldpeak": "2.4"
+                            ,"slop": "平坦"
+                            ,"ca": "2"
+                            ,"thal": "可逆缺陷"
+                            ,"num": "四级心脏病"
+                            },{
+                            "preId": "10004"
+                            ,"age": "60"
+                            ,"sex": "女"
+                            ,"cp": "无症状"
+                            ,"trestbps": "140"
+                            ,"chol": "268"
+                            ,"fbs": "不大于120mg/dl"
+                            ,"restecg": "按Estes标准显示可能或明确的左心室肥厚"
+                            ,"thalach": "160"
+                            ,"exang": "否"
+                            ,"oldpeak": "3.6"
+                            ,"slop": "下降"
+                            ,"ca": "2"
+                            ,"thal": "正常"
+                            ,"num": "三级心脏病"
+                            },{
+                            "preId": "10005"
+                            ,"age": "58"
+                            ,"sex": "男"
+                            ,"cp": "2"
+                            ,"trestbps": "120"
+                            ,"chol": "284"
+                            ,"fbs": "不大于120mg/dl"
+                            ,"restecg": "非典型心绞痛"
+                            ,"thalach": "160"
+                            ,"exang": "否"
+                            ,"oldpeak": "1.8"
+                            ,"slop": "平坦"
+                            ,"ca": "0"
+                            ,"thal": "正常"
+                            ,"num": "一级心脏病"
+                            },{
+                            "preId": "10006"
+                            ,"age": "56"
+                            ,"sex": "男"
+                            ,"cp": "非典型心绞痛"
+                            ,"trestbps": "120"
+                            ,"chol": "236"
+                            ,"fbs": "不大于120mg/dl"
+                            ,"restecg": "有ST-T波异常"
+                            ,"thalach": "178"
+                            ,"exang": "否"
+                            ,"oldpeak": "0.8"
+                            ,"slop": "下降"
+                            ,"ca": "0"
+                            ,"thal": "固定缺陷"
+                            ,"num": "无心脏病"
+                            },{
+                            "preId": "10007"
+                            ,"age": "41"
+                            ,"sex": "女"
+                            ,"cp": "非典型心绞痛"
+                            ,"trestbps": "130"
+                            ,"chol": "204"
+                            ,"fbs": "不大于120mg/dl"
+                            ,"restecg": "正常"
+                            ,"thalach": "172"
+                            ,"exang": "否"
+                            ,"oldpeak": "1.4"
+                            ,"slop": "下降"
+                            ,"ca": "0"
+                            ,"thal": "固定缺陷"
+                            ,"num": "一级心脏病"
+                            }
+                        ]
+                    });
+                    //头工具栏事件
+                    table.on('toolbar(test)', function(obj){
+                        var checkStatus = table.checkStatus(obj.config.preId);
+                        switch(obj.event){
+                        case 'getCheckData':
+                            var data = checkStatus.data;
+                            layer.alert(JSON.stringify(data));
+                        break;
+                        case 'getCheckLength':
+                            var data = checkStatus.data;
+                            layer.msg('选中了：'+ data.length + ' 个');
+                        break;
+                        case 'isAll':
+                            layer.msg(checkStatus.isAll ? '全选': '未全选');
+                        break;
+
+                        //自定义头工具栏右侧图标 - 提示
+                        case 'LAYTABLE_TIPS':
+                            layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                        break;
+                        };
+                    });
+                });
+
+        </script>
+    </body>
+</html>

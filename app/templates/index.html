@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <title>心脏病辅助诊断系统</title>
+      <link rel="stylesheet" href="static/layui/css/layui.css">
+      <link rel="stylesheet" href="static/layui/css/index.css">
+      <script src="static/layui/layui.js"></script>
+  </head>
+  <body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+          <div class="layui-logo">
+              <img src="static/layui/images/heart_logo.png" class="layui-nav-logo">
+              心脏病辅助诊断系统
+          </div>
+          <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="/index">心脏疾病科普</a></li>
+            <li class="layui-nav-item"><a href="/heartPredict">心脏病预测</a></li>
+            <li class="layui-nav-item"><a href="/record">历史预测记录</a></li>
+          </ul>
+          <ul class="layui-nav layui-layout-right">
+              <li class="layui-nav-item">
+                  <i class="layui-icon layui-icon-username" style="font-size: 18px;"></i>
+              </li>
+            <li class="layui-nav-item">
+              {% if username %}
+                  <a href="/login">
+                        {{username}}
+                  </a>
+              {% else %}
+                  <a href="/login">
+                      登录
+                  </a>
+              {% endif %}
+            </li>
+            <li class="layui-nav-item"><a href="/logout">退出</a></li>
+          </ul>
+        </div>
+        <div class="layui-body">
+          <!-- 轮播图 -->
+            <div class="layui-carousel" id="test1">
+              <div carousel-item  style="height:426px;">
+                <div><img src="static/layui/images/indexBanner1.png" style="height:426px;"></div>
+                <div><img src="static/layui/images/indexBanner2.png" style="height:426px;"></div>
+                <div><img src="static/layui/images/indexBanner3.png" style="height:426px;"></div>
+              </div>
+            </div>
+            <!-- 分隔线 -->
+            <div class="lineTitle">
+              <span class="line"></span>
+              <span class="txt">心脏病小科普</span>
+              <span class="line"></span>
+          </div>
+          <!-- 心脏病知识科普选项卡 -->
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+              <ul class="layui-tab-title">
+                <li class="layui-this" style="margin: 0 30px;">疾病介绍</li>
+                <li style="margin: 0 30px;">发病原因</li>
+                <li style="margin: 0 30px;">常见症状</li>
+                <li style="margin: 0 30px;">检查诊断</li>
+                <li style="margin: 0 30px;">护理预防</li>
+              </ul>
+              <div class="layui-tab-content" style="height: 100px;">
+                <!-- 疾病介绍 -->
+                <div class="layui-tab-item layui-show">
+                  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 60px;">
+                    <legend><span class="layui-badge layui-bg-blue" style="font-size: 14px;">基本介绍</span></legend>
+                  </fieldset>  
+                  <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 10px 70px;background-color: #f2f2f2;">
+                    &nbsp;&nbsp;心脏病是心脏发生病变的疾病总称，是一种常见的心内科疾病，由心脏结构受损或功能异常引起。                
+                    心脏病是一类比较常见的循环系统疾病。循环系统由心脏、血管和调节血液循环的神经体液组织构成，
+                    循环系统疾病也称为心血管病，包括上述所有组织器官的疾病，在内科疾病中属于常见病，
+                    其中以心脏病最为多见，能显著地影响患者的劳动力。
+                  </blockquote>
+                  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 80px;">
+                    <legend><span class="layui-badge layui-bg-blue" style="font-size: 14px;">疾病类型</span></legend>
+                  </fieldset>  
+                  <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 10px 70px;background-color: #f2f2f2;">
+                    <div style="margin: 10px;">
+                    <span class="layui-badge-dot layui-bg-green"></span>
+                  <span style="margin-left: 5px;">先天性心脏病</span><br>
+                  是指因胎儿时期心脏发育异常导致的心脏畸形所致，常见的有室间隔缺损、房间隔缺损、法洛四联症等。部分患者会因先天免疫系统异常，导致心肌受损，也会形成先天性心脏病。
+                  </div> 
+                  <div style="margin: 10px;"><span class="layui-badge-dot layui-bg-green"></span> 
+                    <span style="margin-left: 5px;">后天性心脏病</span><br>
+                    指因非发育性原因导致的心脏结构和功能异常，比如冠状动脉粥样硬化性心脏病（冠心病）、风湿性心脏病（风心病）、感染性心肌或心内膜病变、高血压性心脏病、肺源性心脏病（肺心病）、内分泌性心脏病、血液病性心脏病、营养代谢性心脏病等。
+                  </div>
+                  </blockquote>
+                </div>
+                <!-- 发病原因 -->
+                <div class="layui-tab-item">
+                  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 60px;">
+                    <legend>基本病因</legend>
+                  </fieldset>  
+                  <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 10px 70px;background-color: #f2f2f2;">
+                    <div style="margin-top: 10px;">
+                    <span class="layui-badge layui-bg-blue" style="margin-bottom: 10px;">家族遗传病</span><br>
+                    如果家族中有男性小于55岁、女性小于65岁就发生心脏病的，常常提示患者的心脏病可能是由于遗传导致的。例如常见的有肥厚型心肌病往往是遗传所致,马凡综台征也常常与遗传因素所致心脏损伤有关。
+                    </div> 
+                    <div style="margin-top: 30px;">
+                      <span class="layui-badge layui-bg-blue" style="margin-bottom: 10px;">先天发育缺陷</span><br>
+                      排除遗传的可能,患儿的心脏结构或功能先天异常;或由于患者的免疫系统先天发育异常，导致心脏受到免疫系统的攻击而受到损伤,也会引起心脏病。
+                      <br>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>母亲有先兆流产史,新生儿患先心病的几率高,早产的婴儿患有先心病的几率高</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>母亲年龄过大、患有糖尿病或苯丙酮尿症,诱发新生儿患先心病</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>孕早期感染病毒或细菌、喝酒或服用毒品会诱发新生儿患先心病</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>孕期接触有毒物质、放射线或被病毒感染过,会引起胎儿发生心脏发育缺陷</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>患儿具有某些引起心脏畸形的基因突变直接导致发育异常，例如基因突变(囊性纤维化与自身免疫病)所致心脏病</span><br>
+                    </div>
+                    </div>
+                    <div style="margin-top: 30px;">
+                      <span class="layui-badge layui-bg-blue" style="margin-bottom: 10px;">感染因素</span><br>
+                      一些容易累及心脏病变的感染会直接破坏心脏功能或结构,造成心脏病。
+                      <br>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>特定链球菌感染更导致风湿性心脏病</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>口腔疾病的一些细菌会导致心内膜炎，进一步诱发相关心脏疾病</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>一些呼吸道病毒感染还会引发心肌炎,进一步发展 成严重心脏疾病</span>
+                      </div>
+                    </div>   
+                  </blockquote>            
+                  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 60px;">
+                    <legend>诱发因素</legend>
+                  </fieldset>  
+                  <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 10px 70px;background-color: #f2f2f2;">
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>年龄：&nbsp;衰老会增加动脉受损、狭窄,心肌薄弱、增厚的风险</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>性别:&nbsp;男性患心脏病的风险更高, 但绝经后妇女患心脏病的风险也会升高</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>药物或特殊治疗:&nbsp;长期服用某些药物如避孕药或糖皮质激素会诱发心脏病;一些保健品或中药也会损伤心脏而诱发心脏病;放化疗的心肌毒性也会直接导致心脏病。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>精神压力:&nbsp;长期精神压力大、焦虑易怒的患者易发生心脏病。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>高血压:&nbsp;高血压长期得不到控制，会导致动脉硬化和增厚，进而引起心脏的结构和功能异常。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>高血脂&高血糖:&nbsp;血脂水平、血糖水平过高会增加血管形成斑块和粥样硬化的风险,进而诱发心脏病。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>不良的生活习惯:&nbsp;高脂、高盐、高糖饮食，缺乏运动、酗酒、吸食毒品、肥胖等会诱发代谢失衡,影响血管正常。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>吸烟或吸二手烟:&nbsp;烟草中的尼古J会收缩血管，一氧化碳会损坏血管内壁。</span>
+                    </div>
+                  </blockquote>
+                </div>
+                <!-- 常见症状 -->
+                <div class="layui-tab-item">
+                  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 80px;">
+                    <legend><span class="layui-badge layui-bg-blue" style="font-size: 14px;">早期症状</span></legend>
+                  </fieldset>  
+                  <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 10px 70px;background-color: #f2f2f2;">
+                    <div style="margin-top: 10px;">
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>当出现心律失常时：指心跳异常,如跳动太快,太慢或不规则;表现为心慌、心悸、胸闷、呼吸急促、头昏甚至昏厥。</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>当发生心脏泵血功能减弱时：患者会有头乏力、心慌心悸、活动耐力降低的症状,者血压下降甚至昏倒。</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>当出现心肌缺血时：因动脉狭窄导致心肌缺血的患者,往往出现心绞痛,严重时导致心肌梗死。</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>当发生血液淤积时：患者会感到腹胀和食欲下降、尿少水肿、胸闷气短,部分患者还会发生夜间呼吸困难、咳粉红色泡沫痰。</span>
+                      </div>
+                    </div>
+                  </blockquote>
+                  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 80px;">
+                    <legend><span class="layui-badge layui-bg-blue" style="font-size: 14px;">典型症状</span></legend>
+                  </fieldset>  
+                  <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 10px 70px;background-color: #f2f2f2;">
+                    <div style="margin-top: 10px;">
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>先心病的患儿会出现喂养困难,吸吮数口就停歇,易呕吐和大出汗,常常喜欢蹲下缓解呼吸困难。</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>冠心病患者在体力劳动或情绪激动时会突然感觉胸痛、胸闷,如"过电”-般,持续几分钟至十几分钟，经休息或含服硝酸甘油会好转。</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>风心病患者易疲惫、活动后气促,晚期肺动脉高压时出现咳嗽、咳泡沫痰、咳血等症状。</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>肺心病主要表现为咳嗽、咳痰、呼吸急促、心悸、胸痛、力。重者呼吸困难且夜间加重、头手指出现青紫、多汗、日间嗜睡、精神萎靡、认知障碍、双臂不自主颤抖。</span>
+                      </div>
+                    </div>
+                  </blockquote>
+                  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 80px;">
+                    <legend><span class="layui-badge layui-bg-blue" style="font-size: 14px;">伴随症状</span></legend>
+                  </fieldset>  
+                  <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 10px 70px;background-color: #f2f2f2;">
+                    <div style="margin-top: 10px;">
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>晕倒：心脏不能有效的将血液泵入全身，会导致缺氧,引起昏厥。</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>手脚肿胀：血液淤积在肢端,会引|起手脚肿胀。</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>咳嗽：血液淤积在肺脏会引起咳嗽。</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>发热：感染导致的心内膜炎会引|起发热。</span>
+                      </div>
+                      <div class="xt-item">
+                        <span class="layui-badge-dot layui-bg-green"></span>
+                        <span>体型矮小：先矢性心脏病的患儿因喂养不佳等会导致发育迟缓。</span>
+                        </div>
+                    </div>
+                  </blockquote>
+                </div>
+                <!-- 检查诊断 -->
+                <div class="layui-tab-item">
+                  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 60px;">
+                    <legend>就诊须知</legend>
+                  </fieldset>  
+                  <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 10px 70px;background-color: #f2f2f2;">
+                    <div style="margin-top: 10px;">
+                    <span class="layui-badge layui-bg-blue" style="margin-bottom: 10px;">建议就诊科室</span><br>
+                    心血管内科、心胸外科
+                    </div> 
+                    <div style="margin-top: 30px;">
+                      <span class="layui-badge layui-bg-blue" style="margin-bottom: 10px;">最佳就诊时间</span><br>
+                      无特殊，尽快就诊
+                    </div>
+                    <div style="margin-top: 30px;">
+                      <span class="layui-badge layui-bg-blue" style="margin-bottom: 10px;">就诊时长</span><br>
+                      初诊预留3天，复诊每次预留1天
+                    </div> 
+                    <div style="margin-top: 30px;">
+                      <span class="layui-badge layui-bg-blue" style="margin-bottom: 10px;">复诊频率 / 诊疗周期</span><br>
+                      门诊治疗：每周复诊至逐步拉长复诊周期待心悸缓解后，不适随诊。严重者需入院治疗待心跳速度稳定后转门诊治疗。
+                    </div> 
+                    <div style="margin-top: 30px;">
+                      <span class="layui-badge layui-bg-blue" style="margin-bottom: 10px;">就诊前准备</span><br>
+                      无特殊要求，注意休息。
+                    </div> 
+                    <div style="margin-top: 30px;">
+                      <span class="layui-badge layui-bg-blue" style="margin-bottom: 10px;">常见问诊内容</span><br>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>描述就诊原因（从什么时候开始，有什么不舒服？</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>不适的感觉是否由明显的因素引起？</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>有无咳血、咳嗽等伴随症状？</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>是否到过医院就诊，做过那些检查，检查结果是什么？</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>治疗情况如何？</span><br>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>有无药物过敏史？</span><br>
+                      </div>
+                      <div class="xt-item">
+                        <span class="layui-badge-dot layui-bg-green"></span>
+                        <span>家中是否有心脏病患者？</span><br>
+                      </div>
+                    </div>  
+                  </blockquote>          
+                  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 60px;">
+                    <legend>相关检查</legend>
+                  </fieldset>  
+                  <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 10px 70px;background-color: #f2f2f2;">
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>查体：医生会听诊心脏、测量血压,检查全身皮肤是否肿胀、是否有压痛等，来了解患者基本生命体征情况。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>心电图及相关检查：这是常用的检查手段,检查心律是否出现异常。此外, 24小时动态心电图或运动负荷试验可监测到心脏出现的偶尔异常,可以更准确判断是否有心脏病。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>影像学检查：X线、超声心动图、CT和核磁共振可显示心脏病变的具体部位以及严重程度,造影剂可帮助获得更清晰的图像。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>生物标志物分析：心肌肌钙蛋白、肌酸激酶等可反映心肌是否受损;脑钠肽水平可反映心衰程度;自身抗体检测可反映患者是否是自身免疫病导致的心脏病。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>血常规：检查血红蛋白浓度、血细胞大小及形态等,来反映血细胞状态以及全身炎症状态。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>性化与血气：检查的血糖、血脂、血氧水平,来反映是否存在心脏病高危因素以及是否存在缺氧。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>病原体检测：检查患者是否有细菌、病毒感染史,进一步明确是否是感染导致的心脏病。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>病理检查：可获取患者病变的组织进行病理检查,来明确病变部位的具体情况。</span>
+                    </div>
+                  </blockquote>
+                </div>
+                <!-- 护理预防 -->
+                <div class="layui-tab-item">
+                  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 60px;">
+                    <legend>心脏病预防</legend>
+                  </fieldset>  
+                  <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 10px 70px;background-color: #f2f2f2;"> 
+                    <div style="margin-top: 10px;">
+                      <span class="layui-badge layui-bg-blue" style="margin-bottom: 10px;">注意人群</span><br>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>年龄大于45岁的男性、大于55岁的女性</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>吸烟者，肥胖者</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>高血压患者，糖尿病患者，甲亢患者，高胆固醇血症患者</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>有家族遗传病史者，缺乏运动或工作紧张者。</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>在怀孕早期(3个月之前)尽量别在电脑前、微波炉等磁场强的地方坐太长时间。</span><br>
+                      </div>
+                    
+                    </div>  
+                    <div style="margin-top: 30px;">
+                      <span class="layui-badge layui-bg-blue" style="margin-bottom: 10px;">预防措施</span><br>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>先天性心脏病的预防：
+                        孕妇在怀孕期避免接触有毒物质、放射线,可以减少先天性心脏病的发生率;对于遗传导致的先天性心脏病，只能通过产前检查来预测。</span>
+                      </div>
+                      <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span style="line-height: 26px;">后天性获得性心脏病的预防：
+                        可以通过改善日常生活方式(戒烟限酒、避免熬夜、劳累、调整情绪)预防心脏病的发生; 如果患者存在慢性病，如糖尿病、高血压、高血脂,应通过药物、改善饮食和适当运动来控制这些慢性病对血管和心脏的损伤。</span><br>
+                      </div>   
+                    </div>  
+                  </blockquote>           
+                  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 60px;">
+                    <legend>日常护理</legend>
+                  </fieldset>  
+                  <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 10px 70px;background-color: #f2f2f2;">
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>控制体重：<br>研究表明，体重增加10%，胆固醇平均增加18.5，冠心病危险增加38%;体重增加20%，冠心病危险增加86%，有糖尿病的高血压病人比没有糖尿病的高血压病人冠心病患病率增加1倍。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>戒烟：<br>烟草中的烟碱可使心跳加快、血压升高(过量吸烟又可使血压下降)、心脏耗氧量增加、血管痉挛、血液流动异常以及血小板的粘附性增加。这些不良影响，使30—49岁的吸烟男性的冠心病发病率高出不吸烟者3倍，而且吸烟还是造成心绞痛发作和突然死亡的重要原因。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>戒酒：<br>美国科学家的一项实验证实乙醇对心脏具有毒害作用。过量的乙醇摄入能降低心肌的收缩能力。对于患有心脏病的人来说，酗酒不仅会加重心脏的负担，甚至会导致心律失常，并影响脂肪代谢，促进动脉硬化的形成。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>改善生活环境：<br>污染严重及噪音强度较大的地方，可能诱发心脏病。因此改善居住环境，扩大绿化面积，降低噪音，防止各种污染。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>避免拥挤：<br>避免到人员拥挤的地方去。无论是病毒性心肌炎、扩张型心肌病，还是冠心病、风心病，都与病毒感染有关，即便是心力衰竭也常常由于上呼吸道感染而引起急性加重。因此要注意避免到人员拥挤的地方去，尤其是在感冒流行季节，以免受到感染。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>合理饮食：<br>应有合理的饮食安排。高脂血症、不平衡膳食、糖尿病和肥胖都和膳食营养有关，所以，从心脏病的防治角度看营养因素十分重要。原则上应做到“三低”即：低热量、低脂肪、低胆固醇。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>适量运动：<br>积极参加适量的体育运动。维持经常性适当的运动，有利于增强心脏功能，促进身体正常的代谢，尤其对促进脂肪代谢，防止动脉粥样硬化的发生有重要作用。对心脏病患者来说，应根据心脏功能及体力情况，从事适当量的体力活动有助于增进血液循环，增强抵抗力，提高全身各脏器机能，防止血栓形成。但也需避免过于剧烈的活动，活动量应逐步增加，以不引起症状为原则。</span>
+                    </div>
+                    <div class="xt-item">
+                      <span class="layui-badge-dot layui-bg-green"></span>
+                      <span>规律生活：<br>养成健康的生活习惯。生活有规律，心情愉快，避免情绪激动和过度劳累。</span>
+                    </div>
+                  </blockquote>
+                </div>
+              </div>
+            </div> 
+        </div>   
+    </div>
+
+    <script>
+      layui.use(['element','carousel'], function () {
+        var carousel = layui.carousel;
+        var $ = layui.jquery
+        ,element = layui.element;  //Tab的切换功能，切换事件监听等，需要依赖element模块
+          //建造实例 
+          carousel.render({
+            elem: '#test1'
+            ,width: '100%' //设置容器宽度
+            ,height:'426px'
+            ,arrow: 'always' //始终显示箭头
+            //,anim: 'updown' //切换动画方式
+          }); 
+          
+          //触发事件
+        var active = {
+        tabChange: function(){
+        //切换到指定Tab项
+        element.tabChange('demo', '22'); 
+        }
+      };
+    
+      $('.site-demo-active').on('click', function(){
+        var othis = $(this), type = othis.data('type');
+        active[type] ? active[type].call(this, othis) : '';
+      });
+    });
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,46 @@
+.layui-nav-logo{
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+.layui-layout-left {
+    position: absolute!important;
+    left: 250px;
+    top: 0;
+}
+.lineTitle {
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    margin-top: 60px;
+ }
+  .lineTitle .line {
+    display: inline-block;
+    width: 200px;
+    border-top: 1px solid #ccc ;
+ }
+ .lineTitle .txt {
+    color: #686868;
+    vertical-align: middle;
+    vertical-align: -8%;
+    font-size: 30px;
+    padding-left: 16px;
+    padding-right: 16px;
+ }
+.layui-tab-title{
+    text-align: center;
+    margin-top: 60px;
+}
+.layui-badge {
+    height: 26px;
+    line-height: 28px;
+}
+.layui-bg-green{
+    background-color:#5FB878 ! important;
+}
+.xt-item{
+    margin-top: 10px;
+    margin-left: 10px;
+}

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <title>心脏病辅助诊断系统-注册</title>
+      <link rel="stylesheet" href="static/layui/css/layui.css">
+      <link rel="stylesheet" href="/static/layui/css/index.css">
+      <link rel="stylesheet" href="/static/layui/css/login.css" media="all">
+      <script src="static/layui/layui.js"></script>
+      <script src="static/jquery.js"></script>
+  </head>
+  <body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+          <div class="layui-logo">
+              <img src="/static/layui/images/heart_logo.png" class="layui-nav-logo">
+              心脏病辅助诊断系统
+          </div>
+          <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="/index">心脏疾病科普</a></li>
+            <li class="layui-nav-item"><a href="/heartPredict">心脏病预测</a></li>
+            <li class="layui-nav-item"><a href="/record">历史预测记录</a></li>
+          </ul>
+          <ul class="layui-nav layui-layout-right">
+              <li class="layui-nav-item">
+                  <i class="layui-icon layui-icon-username" style="font-size: 18px;"></i>
+              </li>
+            <li class="layui-nav-item">
+              {% if username %}
+                  <a href="/login">
+                        欢迎，{{username}}
+                  </a>
+              {% else %}
+                  <a href="/login">
+                      登录
+                  </a>
+              {% endif %}
+            </li>
+            <li class="layui-nav-item"><a href="/logout">退出</a></li>
+          </ul>
+        </div>
+
+        <div class="layui-body">
+           <div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+
+        <div class="layadmin-user-login-main">
+            <div class="layadmin-user-login-box layadmin-user-login-header">
+                <h2>注册账户</h2>
+                {% if message  %}
+                    <blockquote class="layui-elem-quote">
+                        {{ message }}
+                    </blockquote>
+                {% endif %}
+            </div>
+            <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+                <div class="layui-form-item">
+                    <label class="layadmin-user-login-icon layui-icon layui-icon-username"
+                        for="LAY-user-login-username"></label>
+                    <input type="text" name="username" id="LAY-user-login-username" lay-verify="required"
+                        placeholder="用户名" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="layadmin-user-login-icon layui-icon layui-icon-password"
+                        for="LAY-user-login-password"></label>
+                    <input type="password" name="password" id="LAY-user-login-password" lay-verify="required"
+                        placeholder="密码" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="layadmin-user-login-icon layui-icon layui-icon-password"
+                        for="LAY-user-login-password"></label>
+                    <input type="password" name="password_re" id="LAY-user-login-password_re" lay-verify="required"
+                        placeholder="重复密码" class="layui-input">
+                </div>
+
+                 <div class="layui-form-item">
+                     <label class="layadmin-user-login-icon layui-icon layui-icon-email"
+                        for="LAY-user-login-username"></label>
+                    <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input" placeholder="电子邮箱地址" class = "layui-input">
+
+                </div>
+
+                <div class="layui-form-item">
+                     <label class="layadmin-user-login-icon layui-icon layui-icon-friends"
+                        for="LAY-user-login-username"></label>
+                    <input type="number" name="age"  autocomplete="off" class="layui-input" placeholder="请输入您的年龄(可选)" class = "layui-input">
+
+                </div>
+            <div class="layui-form-item">
+                    <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="LAY-user-login-submit">注册</button>
+                </div>
+
+                <div class="layui-trans layui-form-item layadmin-user-login-other">
+                    <label>社交账号注册</label>
+                    <a href="javascript:;"><i class="layui-icon layui-icon-login-qq"></i></a>
+                    <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat"></i></a>
+                    <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo"></i></a>
+
+                    <a href="/login" class="layadmin-user-jump-change layadmin-link">我已拥有账户，登录</a>
+                </div>
+
+            </div>
+            <!-- 选择性别 -->
+
+
+
+
+
+
+            </div>
+        </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+
+        layui.use(['form', 'layedit', 'laydate'], function(){
+          var form = layui.form
+          ,layer = layui.layer
+          ,layedit = layui.layedit
+          ,laydate = layui.laydate;
+
+          console.log(1)
+          //监听提交
+          form.on('submit(LAY-user-login-submit)', function(data){
+              console.log('test')
+            $.ajax({
+            //请求方式
+            type : "POST",
+            //请求的媒体类型
+            contentType: "application/json;charset=UTF-8",
+            //请求地址
+            url : "/resiger",
+            //数据，json字符串
+            data : JSON.stringify(data.field),
+            //请求成功
+            success : function(result) {
+                console.log(result);
+                if (result=='200'){
+                    window.location.replace("/login?failure=200");
+                }else{
+                 window.location.replace('/resiger?code='+result);
+                }
+            },
+            //请求失败，包含具体的错误信息
+            error : function(e){
+                console.log(e.status);
+                console.log(e.responseText);
+            }
+            });
+            return false;
+          });
+
+        });
+    </script>
+
+    <style>
+        .layui-body {
+            overflow-y: hidden;
+        }
+        .layui-btn{
+                background-color: #1E9FFF!important;
+        }
+        .layui-elem-quote{
+            border-left: 5px solid #db0000!important;
+        }
+
+        .layadmin-user-login {
+            padding: 50px 0;
+        }
+    </style>
+    </body>
+</html>
+

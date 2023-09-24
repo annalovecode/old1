@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="renderer" content="webkit">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+      <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="format-detection" content="telephone=no">
+      <title>心脏病辅助诊断系统</title>
+      <link rel="stylesheet" href="static/layui/css/layui.css">
+      <link rel="stylesheet" href="static/layui/css/index.css">
+      <link rel="stylesheet" href="static/layui/css/heartPredict.css">
+      <script src="static/layui/layui.js"></script>
+      <!-- 引入jquery和jquery-form.js -->
+      <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+      <script src="https://cdn.bootcss.com/jquery.form/3.46.0/jquery.form.js"></script>
+      <style>
+        /* body{text-align:center;} */
+      </style>
+  </head>
+  <body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+          <div class="layui-logo">
+              <img src="static/layui/images/heart_logo.png" class="layui-nav-logo">
+              心脏病辅助诊断系统
+          </div>
+          <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="/index">心脏疾病科普</a></li>
+            <li class="layui-nav-item"><a href="/heartPredict">心脏病预测</a></li>
+            <li class="layui-nav-item"><a href="/record">历史预测记录</a></li>
+          </ul>
+          <ul class="layui-nav layui-layout-right">
+              <li class="layui-nav-item">
+                  <i class="layui-icon layui-icon-username" style="font-size: 18px;"></i>
+              </li>
+            <li class="layui-nav-item">
+              {% if username %}
+                  <a href="/login">
+                        {{username}}
+                  </a>
+              {% else %}
+                  <a href="/login">
+                      登录
+                  </a>
+              {% endif %}
+            </li>
+            <li class="layui-nav-item"><a href="/logout">退出</a></li>
+          </ul>
+        </div>
+        <div class="layui-body" style="margin-top:60px;margin-left:80px;margin-right:80px;">
+          <form class="layui-form layui-form-pane1"   method="post" οnsubmit="return false" id="" lay-filter="first">
+            <!-- 输入年龄 -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">年龄</label>
+              <div class="layui-input-block">
+                <input type="number" name="age" lay-verify="required|number"  required placeholder="请输入年龄" autocomplete="off" class="layui-input" >
+              </div>
+            </div>
+            <!-- 选择性别 -->
+            <div class="layui-form-item" pane>
+              <label class="layui-form-label">性别</label>
+              <div class="layui-input-block">
+                <input type="radio" name="sex" value="1" title="男">
+                <input type="radio" name="sex" value="0" title="女" checked>
+              </div>
+            </div>
+            <!-- 选择胸部疼痛类型 -->
+            <div class="layui-form-item" pane>
+              <label class="layui-form-label">胸部疼痛类型</label>
+              <div class="layui-input-block">
+                <input type="radio" name="cp" value="1" title="典型心绞痛">
+                <input type="radio" name="cp" value="2" title="非典型心绞痛">
+                <input type="radio" name="cp" value="3" title="非心绞痛">
+                <input type="radio" name="cp" value="4" title="无症状" checked>
+              </div>
+            </div>
+            <!-- 输入血压值 -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">血压值</label>
+              <div class="layui-input-block">
+                <input type="number" name="trestbps" lay-verify="required|number"  required placeholder="请输入血压，测量单位为：mmHg" autocomplete="off" class="layui-input" >
+                <!-- <span>mmHg</span> -->
+              </div>
+            </div>
+            <!-- 输入胆固醇值 -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">胆固醇值</label>
+              <div class="layui-input-block">
+                <input type="number" name="chol" lay-verify="required|number"  required placeholder="请输入胆固醇值，测量单位为mg/dl" autocomplete="off" class="layui-input" >
+              </div>
+            </div>
+            <!-- 选择空腹血糖结果 -->
+            <div class="layui-form-item" pane>
+              <label class="layui-form-label">空腹血糖</label>
+              <div class="layui-input-block">
+                <input type="radio" name="fbs" value="1" title="空腹血糖值大于120mg/dl" checked>
+                <input type="radio" name="fbs" value="0" title="不大于120mg/dl" >
+              </div>
+            </div>
+            <!-- 选择心电图结果 -->
+            <div class="layui-form-item" pane>
+              <label class="layui-form-label">心电图</label>
+              <div class="layui-input-block">
+                <input type="radio" name="restecg" value="0" title="正常" checked>
+                <input type="radio" name="restecg" value="1" title="有ST-T波异常" >
+                <input type="radio" name="restecg" value="2" title="按Estes标准显示可能或明确的左心室肥厚">
+              </div>
+            </div>
+            <!-- 输入最大心跳数-->
+            <div class="layui-form-item">
+              <label class="layui-form-label">最大心跳数</label>
+              <div class="layui-input-block">
+                <input type="number" name="thalach" lay-verify="required|number"  required placeholder="请输入最大心跳数" autocomplete="off" class="layui-input" >
+              </div>
+            </div>
+            <!-- 运动时是否心绞痛 -->
+            <div class="layui-form-item" pane>
+              <label class="layui-form-label">运动时是否心绞痛</label>
+              <div class="layui-input-block">
+                <input type="radio" name="exang" value="1" title="是">
+                <input type="radio" name="exang" value="0" title="否" checked>
+              </div>
+            </div>
+            <!-- 输入运动相对于休息的ST depression-->
+            <div class="layui-form-item">
+              <label class="layui-form-label">运动相对于休息的ST depression</label>
+              <div class="layui-input-block">
+                <input type="string" name="oldpeak"   required placeholder="请输入运动相对于休息的ST depression，ST与ECG图上的位置有关" autocomplete="off" class="layui-input" >
+              </div>
+            </div>
+            <!-- 选择心电图ST segment的倾斜度 -->
+            <div class="layui-form-item" pane>
+              <label class="layui-form-label">心电图ST segment的倾斜度</label>
+              <div class="layui-input-block">
+                <input type="radio" name="slop" value="1" title="上升" checked>
+                <input type="radio" name="slop" value="2" title="平坦" >
+                <input type="radio" name="slop" value="3" title="下降">
+              </div>
+            </div>
+            <!-- 输入透视检查看到的血管数-->
+            <div class="layui-form-item">
+              <label class="layui-form-label">透视检查看到的血管数</label>
+              <div class="layui-input-block">
+                <input type="number" name="ca" lay-verify="required|number"  required placeholder="请输入透视检查看到的血管数：0~3" autocomplete="off" class="layui-input" >
+              </div>
+            </div>
+              <!-- 选择称为地中海贫血的血液疾病 -->
+              <div class="layui-form-item" pane>
+                <label class="layui-form-label">称为地中海贫血的血液疾病</label>
+                <div class="layui-input-block">
+                  <input type="radio" name="thal" value="3" title="正常">
+                  <input type="radio" name="thal" value="6" title="固定缺陷" >
+                  <input type="radio" name="thal" value="7" title="可逆缺陷" checked>
+                </div>
+              </div>
+            <div class="layui-form-predict">
+                <button class="layui-btn"  style="background-color: #5FB878;" lay-submit lay-filter="*">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+          </form>      
+        </div>  
+    </div>
+      
+    <script>
+        layui.use(['form', 'layedit', 'laydate'], function(){
+          var form = layui.form
+          ,layer = layui.layer
+          ,layedit = layui.layedit
+          ,laydate = layui.laydate;
+          
+          //初始赋值
+          var thisValue = form.val('first', {
+            'age': 29
+            ,'sex':'女'
+            ,'cp':'典型心绞痛'
+            ,'trestbps':94
+            ,'chol':126
+            ,'fbs':'不大于120mg/dl'
+            ,'restecg':'正常'
+            ,'thalach':71
+            ,'exang':'是'
+            ,'oldpeak':1.165
+            ,'slop':'上升'
+            ,'ca':0
+            ,'thal':'正常'
+          });
+          console.log(thisValue);
+          
+          //事件监听
+          form.on('select', function(data){
+            console.log('select: ', this, data);
+          });
+          
+          form.on('select(quiz)', function(data){
+            console.log('select.quiz：', this, data);
+          });
+          
+          form.on('select(interest)', function(data){
+            console.log('select.interest: ', this, data);
+          });
+          
+          
+          form.on('checkbox', function(data){
+            console.log(this.checked, data.elem.checked);
+          });
+          
+          form.on('switch', function(data){
+            console.log(data);
+          });
+          
+          form.on('radio', function(data){
+            console.log(data);
+          });
+          
+          //监听提交
+          form.on('submit(*)', function(data){
+            $.ajax({
+            //请求方式
+            type : "POST",
+            //请求的媒体类型
+            contentType: "application/json;charset=UTF-8",
+            //请求地址
+            url : "/submitPredict",
+            //数据，json字符串
+            data : JSON.stringify(data.field),
+            //请求成功
+            success : function(result) {
+                console.log(result);
+                window.location.replace("/preResult");
+
+            },
+            //请求失败，包含具体的错误信息
+            error : function(e){
+                console.log(e.status);
+                console.log(e.responseText);
+            }
+            });
+            return false;
+          });
+          
+        });  
+    </script>
+<!-- <script>
+  $(      //页面加载完执行
+      $("#ajaxForm").on("submit",function () {    //表单提交时监听提交事件
+          $(this).ajaxSubmit(options);    //当前表单执行异步提交，optons 是配置提交时、提交后的相关选项
+          return false;   //  必须返回false，才能跳到想要的页面
+      })
+  )
+  //配置 options 选项
+  var options = {
+      url: "/postform",       //提交地址：默认是form的action,如果申明,则会覆盖
+      type: "post",           //默认是form的method（get or post），如果申明，则会覆盖
+      success: successFun,    //提交成功后的回调函数，即成功后可以定页面跳到哪里
+      dataType: "json",       //接受服务端返回的类型
+      clearForm: true,        //成功提交后，清除所有表单元素的值
+      resetForm: true,        //成功提交后，重置所有表单元素的值
+      timeout: 3000           //设置请求时间，超过该时间后，自动退出请求，单位(毫秒)
+  }
+  //设置提交成功后返回的页面
+  function successFun(data,status) {
+      $("#showForm").html(data.msg);      //提交表单后从后台接收到的返回来的数据，我保存到了msg里
+      $("#showForm").html("preResult")
+  }
+</script> -->
+  </body>
+</html>

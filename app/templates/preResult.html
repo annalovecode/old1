@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <title>心脏病辅助诊断系统</title>
+      <link rel="stylesheet" href="static/layui/css/layui.css">
+      <link rel="stylesheet" href="/static/layui/css/index.css">
+      <script src="static/layui/layui.js"></script>
+  </head>
+  <body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+          <div class="layui-logo">
+              <img src="/static/layui/images/heart_logo.png" class="layui-nav-logo">
+              心脏病辅助诊断系统
+          </div>
+          <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="/index">心脏疾病科普</a></li>
+            <li class="layui-nav-item"><a href="/heartPredict">心脏病预测</a></li>
+            <li class="layui-nav-item"><a href="/record">历史预测记录</a></li>
+          </ul>
+          <ul class="layui-nav layui-layout-right">
+              <li class="layui-nav-item">
+                  <i class="layui-icon layui-icon-username" style="font-size: 18px;"></i>
+              </li>
+            <li class="layui-nav-item">
+              {% if username %}
+                  <a href="/login">
+                        欢迎，{{username}}
+                  </a>
+              {% else %}
+                  <a href="/login">
+                      登录
+                  </a>
+              {% endif %}
+            </li>
+            <li class="layui-nav-item"><a href="/logout">退出</a></li>
+          </ul>
+        </div>
+        <div class="layui-body">
+            <!-- 分隔线 -->
+            <div class="lineTitle">
+              <span class="line"></span>
+              <span class="txt">本次预测结果</span>
+              <span class="line"></span>
+            </div>
+            <div class="body-box" style="width: 606px;margin: 0 auto;">
+            <table class="layui-hide" id="test"></table>
+            </div>
+            <div class="layui-col-md12">
+                <div class="layui-card">
+
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                    <legend>心脏病等级划分</legend>
+                  </fieldset>
+                <div class="layui-card-body" style="margin: 10px 80px 0 80px;">
+                    <div style="padding: 20px; background-color: #F2F2F2;">
+                        <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md6">
+                            <div class="layui-card">
+                            <div class="layui-card-header">
+                                <i class="layui-icon layui-icon-triangle-r" style="font-size: 20px; color:#5FB878;"></i>    
+                                <span class="header-title" style="font-size: 16px;color:#2F4056;">一级心脏病</span></div>
+                            <div class="layui-card-body px36">
+                                一级心脏病患者能胜任一般的体力劳动，如行走及日常体力活动。<br/><br/>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <div class="layui-card">
+                            <div class="layui-card-header">
+                                <i class="layui-icon layui-icon-triangle-r" style="font-size: 20px; color:#5FB878;"></i>   
+                                <span class="header-title" style="font-size: 16px;color:#2F4056;">二级心脏病</span>
+                            </div>
+                            <div class="layui-card-body">
+                                二级心脏病患者对一般体力活动略受限制，休息时舒适如常，在日常体力活动时即感疲劳、心慌与气急。<br><br>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                <div class="layui-card-body" style="margin:0 80px 0 80px;">
+                    <div style="padding: 20px; background-color: #F2F2F2;">
+                        <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md6">
+                            <div class="layui-card">
+                            <div class="layui-card-header">
+                                <i class="layui-icon layui-icon-triangle-r" style="font-size: 20px; color:#5FB878;"></i>    
+                                <span class="header-title" style="font-size: 16px;color:#2F4056;">三级心脏病</span></div>
+                            <div class="layui-card-body px36">
+                                三级心脏病患者对一般体力活动明显受限制，休息时虽无不适，但稍加活动即感疲劳、心慌、胸闷甚至伴有轻度心衰现象。<br>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <div class="layui-card">
+                            <div class="layui-card-header">
+                                <i class="layui-icon layui-icon-triangle-r" style="font-size: 20px; color:#5FB878;"></i>   
+                                <span class="header-title" style="font-size: 16px;color:#2F4056;">四级心脏病</span>
+                            </div>
+                            <div class="layui-card-body px36">
+                                四级心脏病患者做任何轻微活动时即感不适，休息时仍有心慌、气急、有明显的心衰现象。<br><br>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>   
+    </div>
+
+    <script>
+        layui.use(['element','table'], function(){
+          var table = layui.table
+          ,element = layui.element;
+          table.render({
+            elem: '#test'
+            // ,url:'/demo/table/user/'
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+              {field:'preId',width:100,align: 'center',title: '预测ID'}
+              ,{field:'age',width:100,align: 'center',title: '年龄'}
+              ,{field:'sex',width:100,align: 'center',title: '性别'}
+              ,{field:'num1',width:150,align: 'center',title: '二级分类预测结果',
+                 templet: function (d) {
+                    if (d.num1 == "无心脏病") {
+                         return '<div style="background-color:#5FB878;color: white;">' + d.num1 + '</div>'
+                         }
+
+                    if (d.num1 == "有心脏病") {
+                        return '<div style="background-color:#df0000;color: white;">' + d.num1 + '</div>'
+                        }
+                    }
+                },{field:'num2', width:150,align: 'center',title: '多级分类预测结果',
+                    templet: function (d) {
+                        if (d.num2 == "无心脏病") {
+                            return '<div style="background-color:#5FB878;color: white;">' + d.num2 + '</div>'
+                            }
+                        if (d.num2 == "一级心脏病") {
+                             return '<div style="background-color:#ffd700;color: white;">' + d.num2 + '</div>'
+                            }
+                        if (d.num2 == "二级心脏病") {
+                            return '<div style="background-color:#FFB800;color: white;">' + d.num2 + '</div>'
+                            }
+                        if (d.num2 == "三级心脏病") {
+                            return '<div style="background-color:#FF5722;color: white;">' + d.num2 + '</div>'
+                            }
+                        if (d.num2 == "四级心脏病") {
+                            return '<div style="background-color:#df0000;color: white;">' + d.num2 + '</div>'
+                            }
+                    }
+                }
+            ]]
+             ,data: [{
+                    "preId": "{{ preid }}"
+                    ,"age": "{{ age }}"
+                    ,"sex": "{{ sex }}"
+                    ,"num1": "{{result_s}}"
+                    ,"num2": "{{ result_m }}"
+                    }]
+          });
+        });
+        </script>
+    <style>
+        .px36{
+            line-height: 36px;
+        }
+    </style>
+  </body>
+</html>
+
